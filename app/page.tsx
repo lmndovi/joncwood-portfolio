@@ -2,9 +2,9 @@ import ImageCarousel from "@/components/ImageCarousel";
 
 export default function Home() {
   return (
-    <div>
+    <main>
       {/* Image Carousel */}
       <ImageCarousel />
-    </div>
+    </main>
   );
 }

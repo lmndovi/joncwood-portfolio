@@ -55,7 +55,9 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/80 backdrop-blur-md py-3" : "py-6"
+        isScrolled
+          ? "bg-white/90 backdrop-blur-md py-3 shadow-sm"
+          : "bg-white/80 backdrop-blur-sm py-4 md:py-6"
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
@@ -76,9 +78,10 @@ export default function Header() {
                     <NavigationMenuLink
                       className={cn(
                         navigationMenuTriggerStyle(),
+                        "bg-transparent hover:bg-black/5",
                         pathname === href
-                          ? "font-medium"
-                          : "text-muted-foreground hover:text-foreground"
+                          ? "font-medium text-black"
+                          : "text-gray-700 hover:text-black"
                       )}
                     >
                       {label}

@@ -1,10 +1,10 @@
-import Image from "next/image";
+import ImageCarousel from "@/components/ImageCarousel";
 
 export default function Home() {
   return (
     <div>
       {/* Image Carousel */}
-      Image Carousel
+      <ImageCarousel />
     </div>
   );
 }

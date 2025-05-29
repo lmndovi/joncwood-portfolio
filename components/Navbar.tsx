@@ -17,7 +17,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/16/solid";
 
 const navItems = [
-  { href: "/about", label: "About" },
+  { href: "/shop", label: "Shop" },
   { href: "/work", label: "Work" },
   { href: "/contact", label: "Contact" },
 ];
@@ -32,9 +32,9 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/about" legacyBehavior passHref>
+              <Link href="/shop" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  About
+                  Shop
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

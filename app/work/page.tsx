@@ -5,61 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-// Rendered by Sanity later
-// const featuredArt = [
-//   {
-//     id: "1",
-//     title: "Death of the Elephant",
-//     year: "2016",
-//     category: "WORK",
-//     imageUrl: "/images/death-elephant-image.jpg",
-//   },
-//   {
-//     id: "2",
-//     title: "Pontification of Dementia",
-//     year: "2013",
-//     category: "WORK",
-//     imageUrl: "/images/pontification-image.jpg",
-//   },
-//   {
-//     id: "3",
-//     title: "The Juggling NHS Art Therapist",
-//     year: "2012",
-//     category: "WORK",
-//     imageUrl: "/images/juggling-image.jpg",
-//   },
-//   {
-//     id: "4",
-//     title: "Moondancer",
-//     year: "2012",
-//     category: "WORK",
-//     imageUrl: "/images/moondancer-image.jpg",
-//   },
-//   {
-//     id: "5",
-//     title: "Ganesha and Fish Family",
-//     year: "2023",
-//     category: "WORK",
-//     imageUrl: "/images/elephant-image.jpg",
-//   },
-//   {
-//     id: "6",
-//     title: "The Photographer (JB)",
-//     year: "2024",
-//     category: "WORK",
-//     imageUrl: "/images/fishery-image.jpg",
-//   },
-//   {
-//     id: "7",
-//     title: "Mary Madeleine Crucifixion",
-//     year: "2024",
-//     category: "WORK",
-//     imageUrl: "/images/sunshine-image.jpg",
-//   },
-// ];
-
 export default async function WorkPage() {
   const featuredArt: Artwork[] = await getAllArtworks();
+
+  // Handle case where no artworks are found
+  if (!featuredArt || featuredArt.length === 0) {
+    return (
+      <main className="pt-24 pb-12 px-6 md:px-12">
+        <div className="text-center">
+          <h1 className="text-2xl font-light tracking-widest mb-4">WORK</h1>
+          <p className="text-muted-foreground">No artworks found.</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="pt-24 pb-12 px-6 md:px-12">

@@ -9,7 +9,7 @@ export async function getFeaturedArtworks() {
         "id": _id,
         year,
         category,
-        "imageUrl": mainImage.asset->url,
+        mainImage,
         "slug": slug.current
       }
     `);
@@ -43,7 +43,7 @@ export async function getArtworkById(id: string) {
         "id": _id,
         year,
         category,
-        "imageUrl": mainImage.asset->url,
+        mainImage,
         "slug": slug.current,
         description,
         dimensions,

@@ -1,91 +1,52 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowBigLeft,
-  ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
+import { getAllArtworks, getArtworkById } from "@/sanity/lib/fetch";
+import { Artwork } from "@/sanity.types";
+import { urlFor } from "@/sanity/lib/image";
 
-// Same data as in work/page.tsx - will be replaced by Sanity later
-const featuredArt = [
-  {
-    id: "1",
-    title: "Death of the Elephant",
-    year: "2016",
-    category: "WORK",
-    imageUrl: "/images/death-elephant-image.jpg",
-  },
-  {
-    id: "2",
-    title: "Pontification of Dementia",
-    year: "2013",
-    category: "WORK",
-    imageUrl: "/images/pontification-image.jpg",
-  },
-  {
-    id: "3",
-    title: "The Juggling NHS Art Therapist",
-    year: "2012",
-    category: "WORK",
-    imageUrl: "/images/juggling-image.jpg",
-  },
-  {
-    id: "4",
-    title: "Moondancer",
-    year: "2012",
-    category: "WORK",
-    imageUrl: "/images/moondancer-image.jpg",
-  },
-  {
-    id: "5",
-    title: "Ganesha and Fish Family",
-    year: "2023",
-    category: "WORK",
-    imageUrl: "/images/elephant-image.jpg",
-  },
-  {
-    id: "6",
-    title: "The Photographer (JB)",
-    year: "2024",
-    category: "WORK",
-    imageUrl: "/images/fishery-image.jpg",
-  },
-  {
-    id: "7",
-    title: "Mary Madeleine Crucifixion",
-    year: "2024",
-    category: "WORK",
-    imageUrl: "/images/sunshine-image.jpg",
-  },
-];
+// Generate static params for all artworks
+export async function generateStaticParams() {
+  const featuredArt: Artwork[] = await getAllArtworks();
+  return featuredArt.map((art) => ({
+    id: art._id,
+  }));
+}
 
-export default function ArtworkPage({ params }: { params: { id: string } }) {
-  const artwork = featuredArt.find((art) => art.id === params.id);
+export default async function ArtworkPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const art = await getArtworkById(params.id);
 
-  if (!artwork) {
+  if (!art) {
     notFound();
   }
-
   // For navigation between artworks
-  const currentIndex = featuredArt.findIndex((art) => art.id === params.id);
+  const allArtworks: Artwork[] = await getAllArtworks();
+
+  const currentIndex = allArtworks.findIndex((art) => art._id === params.id);
   const prevId =
     currentIndex > 0
-      ? featuredArt[currentIndex - 1].id
-      : featuredArt[featuredArt.length - 1].id;
+      ? allArtworks[currentIndex - 1]._id
+      : allArtworks[allArtworks.length - 1]._id;
   const nextId =
-    currentIndex < featuredArt.length - 1
-      ? featuredArt[currentIndex + 1].id
-      : featuredArt[0].id;
+    currentIndex < allArtworks.length - 1
+      ? allArtworks[currentIndex + 1]._id
+      : allArtworks[0]._id;
 
   return (
     <main className="relative w-full h-[calc(100vh-80px)] mt-[80px] overflow-hidden">
       {/* Full screen background image */}
       <div className="absolute inset-0">
         <Image
-          src={artwork.imageUrl || "/placeholder.svg?height=1080&width=1920"}
-          alt={artwork.title}
+          src={
+            urlFor(art.mainImage).url() ||
+            "/placeholder.svg?height=1080&width=1920"
+          }
+          alt={art.title}
           fill
           priority
           className="object-contain bg-gray-100"
@@ -111,7 +72,7 @@ export default function ArtworkPage({ params }: { params: { id: string } }) {
 
       {/* Artwork info */}
       <div className="absolute bottom-6 left-6 bg-white/10 backdrop-blur-sm px-4 py-2 text-sm rounded-md">
-        {artwork.category} / {artwork.year}
+        {art.category} / {art.year}
       </div>
 
       {/* Back to gallery link */}
@@ -129,7 +90,7 @@ export default function ArtworkPage({ params }: { params: { id: string } }) {
 
       {/* Artwork title */}
       <div className="absolute bottom-6 right-6 bg-white/10 backdrop-blur-sm px-4 py-2 text-sm rounded-md">
-        <h1 className="font-medium">{artwork.title}</h1>
+        <h1 className="font-medium">{art.title}</h1>
       </div>
     </main>
   );

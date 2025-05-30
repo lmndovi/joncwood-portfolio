@@ -136,8 +136,8 @@ export default function Header() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-[72px] bg-background/95 backdrop-blur-md z-40">
-          <div className="container mx-auto px-6 py-8">
+        <div className="md:hidden fixed inset-0 top-[72px] bg-white backdrop-blur-md z-40">
+          <div className="container bg-white mx-auto px-6 py-8">
             <nav className="space-y-6">
               {navItems.map(({ href, label }) => (
                 <Link

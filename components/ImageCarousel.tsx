@@ -4,45 +4,18 @@ import React, { useCallback } from "react";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { Artwork } from "@/sanity.types";
+import { urlFor } from "@/sanity/lib/image";
 
-// Rendered by Sanity later
-const featuredArt = [
-  {
-    id: "1",
-    title: "Death of the Elephant",
-    year: "2016",
-    category: "WORK",
-    imageUrl: "/images/death-elephant-image.jpg",
-  },
-  {
-    id: "2",
-    title: "Pontification of Dementia",
-    year: "2013",
-    category: "WORK",
-    imageUrl: "/images/pontification-image.jpg",
-  },
-  {
-    id: "3",
-    title: "The Juggling NHS Art Therapist",
-    year: "2012",
-    category: "WORK",
-    imageUrl: "/images/juggling-image.jpg",
-  },
-  {
-    id: "4",
-    title: "Moondancer",
-    year: "2012",
-    category: "WORK",
-    imageUrl: "/images/moondancer-image.jpg",
-  },
-];
-
-const ImageCarousel = () => {
+const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [imageAspectRatio, setImageAspectRatio] = useState<
     "portrait" | "landscape" | "square"
   >("portrait");
+
+  // Use the data passed from the server component
+  const featuredArt = initialArtworks;
 
   const currentArt = featuredArt[currentIndex];
 
@@ -100,21 +73,23 @@ const ImageCarousel = () => {
     <div className="w-full h-[calc(100vh-80px)] mt-[80px] bg-gray-100">
       {/* Image container with smart fitting */}
       <div className="relative w-full h-full">
-        <Image
-          key={currentIndex}
-          src={currentArt.imageUrl || "/placeholder.svg"}
-          alt={currentArt.title}
-          fill
-          priority
-          onLoad={handleImageLoad}
-          className={`transition-opacity duration-500 ${
-            isTransitioning ? "opacity-0" : "opacity-100"
-          } ${
-            imageAspectRatio === "portrait"
-              ? "object-contain" // Don't crop portrait images
-              : "object-cover" // Landscape images can be cropped
-          }`}
-        />
+        {currentArt.mainImage?.asset && (
+          <Image
+            key={currentIndex}
+            src={urlFor(currentArt.mainImage).url() || "/placeholder.svg"}
+            alt={currentArt.title || "Untitled artwork"}
+            fill
+            priority
+            onLoad={handleImageLoad}
+            className={`transition-opacity duration-500 ${
+              isTransitioning ? "opacity-0" : "opacity-100"
+            } ${
+              imageAspectRatio === "portrait"
+                ? "object-contain" // Don't crop portrait images
+                : "object-cover" // Landscape images can be cropped
+            }`}
+          />
+        )}
       </div>
 
       {/* Navigation arrows */}

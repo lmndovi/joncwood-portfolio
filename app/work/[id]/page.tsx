@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getAllArtworks, getArtworkById } from "@/sanity/lib/fetch";
-import { Artwork } from "@/sanity.types";
+import type { Artwork } from "@/sanity.types";
 import { urlFor } from "@/sanity/lib/image";
 
 // Generate static params for all artworks
@@ -14,12 +14,16 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ArtworkPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const art = await getArtworkById(params.id);
+// Define the correct type for Next.js 15 dynamic routes
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function ArtworkPage({ params }: Props) {
+  // Await the params Promise in Next.js 15
+  const { id } = await params;
+
+  const art = await getArtworkById(id);
 
   if (!art) {
     notFound();
@@ -27,7 +31,7 @@ export default async function ArtworkPage({
   // For navigation between artworks
   const allArtworks: Artwork[] = await getAllArtworks();
 
-  const currentIndex = allArtworks.findIndex((art) => art._id === params.id);
+  const currentIndex = allArtworks.findIndex((art) => art._id === id);
   const prevId =
     currentIndex > 0
       ? allArtworks[currentIndex - 1]._id

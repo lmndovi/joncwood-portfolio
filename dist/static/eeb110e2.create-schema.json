@@ -1,0 +1,275 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Work",
+              "value": "WORK"
+            },
+            {
+              "title": "Sketch",
+              "value": "SKETCH"
+            },
+            {
+              "title": "Object",
+              "value": "OBJECT"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "WORK",
+                  "SKETCH",
+                  "OBJECT"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "category",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "mainImage",
+        "type": "image"
+      },
+      {
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "dimensions",
+        "type": "string"
+      },
+      {
+        "name": "medium",
+        "type": "string"
+      },
+      {
+        "initialValue": false,
+        "description": "Show this artwork in the homepage carousel",
+        "name": "featured",
+        "type": "boolean",
+        "title": "Featured in Carousel"
+      },
+      {
+        "description": "Order in the carousel (lower numbers appear first)",
+        "hidden": "conditional",
+        "name": "featuredOrder",
+        "type": "number"
+      }
+    ],
+    "name": "artwork",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "CONTACT JON",
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "initialValue": "The youngest of 4 and born in Royston, Cambridgeshire, Jonathan Charles Woods is an artist, art therapist, dad and dog lover who has retired to the wilds of Penzance with his wonderful wife Carol.",
+        "name": "bio",
+        "type": "text",
+        "title": "Biography"
+      },
+      {
+        "initialValue": "His art is very much for sale!",
+        "name": "callToAction",
+        "type": "string",
+        "title": "Call to Action"
+      },
+      {
+        "initialValue": "Get in touch to find out more about buying, commissioning, exploring his back catalogue or exhibiting Jon's work",
+        "name": "servicesText",
+        "type": "text"
+      },
+      {
+        "initialValue": "EMAIL",
+        "name": "emailHeading",
+        "type": "string"
+      },
+      {
+        "initialValue": "jonwoods55@gmail.com",
+        "name": "email",
+        "type": "string",
+        "title": "Email Address"
+      },
+      {
+        "initialValue": "FOLLOW",
+        "name": "socialHeading",
+        "type": "string",
+        "title": "Social Media Heading"
+      },
+      {
+        "initialValue": "https://instagram.com",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "instagramUrl",
+        "type": "url",
+        "title": "Instagram URL"
+      }
+    ],
+    "name": "contactPage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "SHOP",
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "initialValue": "Currently selling prints, posters, cushions, mugs, stickers and more on Redbubble",
+        "description": "The main heading about Redbubble products",
+        "name": "mainHeading",
+        "type": "text"
+      },
+      {
+        "initialValue": "Shop All",
+        "name": "buttonText",
+        "type": "string"
+      },
+      {
+        "initialValue": "https://www.redbubble.com/people/jonwoodsart/shop",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "redbubbleUrl",
+        "type": "url",
+        "title": "Redbubble URL"
+      },
+      {
+        "initialValue": "ORIGINAL ARTWORK",
+        "name": "originalArtworkHeading",
+        "type": "string"
+      },
+      {
+        "initialValue": "For original artwork, please contact Jonathan at jonwoods55@gmail.com",
+        "name": "originalArtworkText",
+        "type": "text"
+      }
+    ],
+    "name": "shopPage",
+    "type": "document"
+  }
+]

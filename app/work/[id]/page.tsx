@@ -95,6 +95,7 @@ export default async function ArtworkPage({ params }: Props) {
       {/* Artwork title */}
       <div className="absolute bottom-6 right-6 bg-white/10 backdrop-blur-sm px-4 py-2 text-sm rounded-md">
         <h1 className="font-medium">{art.title}</h1>
+        <p className="font-light">{art.description}</p>
       </div>
     </main>
   );

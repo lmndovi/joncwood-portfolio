@@ -6,10 +6,9 @@ import Link from "next/link";
 import React from "react";
 
 export default async function WorkPage() {
-  const featuredArt: Artwork[] = await getAllArtworks();
+  const artworks: Artwork[] = await getAllArtworks();
 
-  // Handle case where no artworks are found
-  if (!featuredArt || featuredArt.length === 0) {
+  if (!artworks || artworks.length === 0) {
     return (
       <main className="pt-24 pb-12 px-6 md:px-12">
         <div className="text-center">
@@ -23,24 +22,30 @@ export default async function WorkPage() {
   return (
     <main className="pt-24 pb-12 px-6 md:px-12">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {featuredArt.map((art) => (
-          <Link key={art._id} href={`/work/${art._id}`} className="group">
-            <div className="relative aspect-[4/3] overflow-hidden">
-              {art.mainImage?.asset && (
-                <Image
-                  src={urlFor(art.mainImage).url()}
-                  alt={art.title || "Untitled artwork"}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              )}
-            </div>
-            <div className="mt-2 flex justify-between text-sm">
-              <span>{art.title}</span>
-              <span className="text-muted-foreground">{art.year}</span>
-            </div>
-          </Link>
-        ))}
+        {artworks.map((art) => {
+          const width = art.imageWidth || 4;
+          const height = art.imageHeight || 3;
+          return (
+            <Link key={art._id} href={`/work/${art._id}`} className="group">
+              <div
+                className={`relative overflow-hidden aspect-[${width}/${height}]`}
+              >
+                {art.mainImage?.asset && (
+                  <Image
+                    src={urlFor(art.mainImage).url()}
+                    alt={art.title || "Untitled artwork"}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
+              </div>
+              <div className="mt-2 flex justify-between text-sm">
+                <span>{art.title}</span>
+                <span className="text-muted-foreground">{art.year}</span>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </main>
   );

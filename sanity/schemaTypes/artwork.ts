@@ -50,6 +50,20 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "imageWidth",
+      title: "Image Width",
+      type: "number",
+      description: "Width for cropping (e.g., 4 for a 4:3 crop)",
+      validation: (Rule) => Rule.required().positive(),
+    }),
+    defineField({
+      name: "imageHeight",
+      title: "Image Height",
+      type: "number",
+      description: "Height for cropping (e.g., 3 for a 4:3 crop)",
+      validation: (Rule) => Rule.required().positive(),
+    }),
+    defineField({
       name: "description",
       title: "Description",
       type: "text",

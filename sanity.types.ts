@@ -70,6 +70,8 @@ export type Artwork = {
   medium?: string;
   featured?: boolean;
   featuredOrder?: number;
+  imageWidth?: number; // new
+  imageHeight?: number; // new
 };
 
 export type SanityImagePaletteSwatch = {
@@ -190,5 +192,19 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = ShopPage | ContactPage | Artwork | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes =
+  | ShopPage
+  | ContactPage
+  | Artwork
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageHotspot
+  | SanityImageCrop
+  | SanityFileAsset
+  | SanityImageAsset
+  | SanityImageMetadata
+  | Geopoint
+  | Slug
+  | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;

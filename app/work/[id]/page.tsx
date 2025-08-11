@@ -1,37 +1,25 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
-import { notFound } from "next/navigation";
 import { getAllArtworks, getArtworkById } from "@/sanity/lib/fetch";
-import type { Artwork } from "@/sanity.types";
-import { urlFor } from "@/sanity/lib/image";
+import { notFound } from "next/navigation";
+import { Artwork } from "@/sanity.types";
+import ArtworkDetailClient from "@/components/ArtworkDetailClient";
 
-// Generate static params for all artworks
-export async function generateStaticParams() {
-  const featuredArt: Artwork[] = await getAllArtworks();
-  return featuredArt.map((art) => ({
-    id: art._id,
-  }));
-}
-
-// Define the correct type for Next.js 15 dynamic routes
 type Props = {
   params: Promise<{ id: string }>;
 };
 
+export async function generateStaticParams() {
+  const artworks: Artwork[] = await getAllArtworks();
+  return artworks.map((art) => ({ id: art._id }));
+}
+
 export default async function ArtworkPage({ params }: Props) {
-  // Await the params Promise in Next.js 15
   const { id } = await params;
 
   const art = await getArtworkById(id);
+  if (!art) notFound();
 
-  if (!art) {
-    notFound();
-  }
-  // For navigation between artworks
-  const allArtworks: Artwork[] = await getAllArtworks();
-
-  const currentIndex = allArtworks.findIndex((art) => art._id === id);
+  const allArtworks = (await getAllArtworks()) as Artwork[];
+  const currentIndex = allArtworks.findIndex((a) => a._id === id);
   const prevId =
     currentIndex > 0
       ? allArtworks[currentIndex - 1]._id
@@ -41,62 +29,5 @@ export default async function ArtworkPage({ params }: Props) {
       ? allArtworks[currentIndex + 1]._id
       : allArtworks[0]._id;
 
-  return (
-    <main className="relative w-full h-[calc(100vh-80px)] mt-[80px] overflow-hidden">
-      {/* Full screen background image */}
-      <div className="absolute inset-0">
-        <Image
-          src={
-            urlFor(art.mainImage).url() ||
-            "/placeholder.svg?height=1080&width=1920"
-          }
-          alt={art.title}
-          fill
-          priority
-          className="object-contain bg-gray-100"
-        />
-      </div>
-
-      {/* Navigation arrows */}
-      <div className="absolute inset-0 flex items-center justify-between px-6 pointer-events-none">
-        <Link
-          href={`/work/${prevId}`}
-          className="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-2 rounded-full transition-all pointer-events-auto"
-          aria-label="View previous artwork"
-        >
-          <ChevronLeft className="h-8 w-8" />
-        </Link>
-        <Link
-          href={`/work/${nextId}`}
-          className="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-2 rounded-full transition-all pointer-events-auto"
-        >
-          <ChevronRight className="h-8 w-8" />
-        </Link>
-      </div>
-
-      {/* Artwork info */}
-      <div className="absolute bottom-6 left-6 bg-white/10 backdrop-blur-sm px-4 py-2 text-sm rounded-md">
-        {art.category} / {art.year}
-      </div>
-
-      {/* Back to gallery link */}
-      <div className="absolute top-6 left-6">
-        <Link
-          href="/work"
-          className="bg-white/10 hover:bg-white/20 backdrop-blur-sm px-4 py-2 text-sm rounded-md transition-all flex"
-        >
-          <span className="px-2">
-            <ArrowLeft />
-          </span>
-          Gallery
-        </Link>
-      </div>
-
-      {/* Artwork title */}
-      <div className="absolute bottom-6 right-6 bg-white/10 backdrop-blur-sm px-4 py-2 text-sm rounded-md">
-        <h1 className="font-medium">{art.title}</h1>
-        <p className="font-light">{art.description}</p>
-      </div>
-    </main>
-  );
+  return <ArtworkDetailClient art={art} prevId={prevId} nextId={nextId} />;
 }

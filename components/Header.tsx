@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/navigation-menu";
 
 const navItems = [
-  { href: "/work", label: "WORK" },
-  { href: "/shop", label: "SHOP" },
+  { href: "/about", label: "ABOUT" },
+  { href: "/work", label: "SELECTED WORKS" },
   { href: "/contact", label: "CONTACT" },
 ];
 
@@ -95,25 +95,11 @@ export default function Header() {
           {/* Social Media Links */}
           <div className="flex items-center space-x-4 ml-4">
             <Link
-              href="https://instagram.com"
+              href="https://www.instagram.com/jontwoods/?hl=en"
               aria-label="Instagram"
               className="hover:opacity-70 transition-opacity"
             >
               <Instagram className="h-5 w-5" />
-            </Link>
-            <Link
-              href="https://facebook.com"
-              aria-label="Facebook"
-              className="hover:opacity-70 transition-opacity"
-            >
-              <Facebook className="h-5 w-5" />
-            </Link>
-            <Link
-              href="https://twitter.com"
-              aria-label="Twitter"
-              className="hover:opacity-70 transition-opacity"
-            >
-              <Twitter className="h-5 w-5" />
             </Link>
           </div>
         </div>

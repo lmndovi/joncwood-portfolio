@@ -13,19 +13,6 @@
  */
 
 // Source: schema.json
-export type ShopPage = {
-  _id: string;
-  _type: "shopPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  mainHeading?: string;
-  buttonText?: string;
-  redbubbleUrl?: string;
-  originalArtworkHeading?: string;
-  originalArtworkText?: string;
-};
 
 export type ContactPage = {
   _id: string;
@@ -41,6 +28,16 @@ export type ContactPage = {
   email?: string;
   socialHeading?: string;
   instagramUrl?: string;
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  about?: any; // Portable Text content
 };
 
 export type Artwork = {
@@ -201,7 +198,7 @@ export type SanityAssetSourceData = {
 };
 
 export type AllSanitySchemaTypes =
-  | ShopPage
+  | AboutPage
   | ContactPage
   | Artwork
   | SanityImagePaletteSwatch

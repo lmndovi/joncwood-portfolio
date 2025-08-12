@@ -1,3 +1,4 @@
+import { AboutPage } from "@/sanity.types";
 import { client } from "./client";
 
 // Utility function to get featured artworks
@@ -83,19 +84,13 @@ export async function getArtworkById(id: string) {
     { id }
   );
 }
-
-// Get shop page content
-export async function getShopPageContent() {
-  return client.fetch(`
-      *[_type == "shopPage"][0] {
-        title,
-        mainHeading,
-        buttonText,
-        redbubbleUrl,
-        originalArtworkHeading,
-        originalArtworkText,
-      }
-    `);
+export async function getAboutPageContent(): Promise<AboutPage> {
+  return client.fetch(
+    `*[_type == "aboutPage"][0]{
+      title,
+      about
+    }`
+  );
 }
 
 // Get contact page content

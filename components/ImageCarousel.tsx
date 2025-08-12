@@ -37,7 +37,7 @@ const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev + 1) % featuredArt.length);
-  }, [isTransitioning]);
+  }, [isTransitioning, featuredArt.length]);
 
   const goToPrevious = useCallback(() => {
     if (isTransitioning) return;
@@ -45,7 +45,7 @@ const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
     setCurrentIndex(
       (prev) => (prev - 1 + featuredArt.length) % featuredArt.length
     );
-  }, [isTransitioning]);
+  }, [isTransitioning, featuredArt.length]);
 
   // Handle keyboard navigation
   useEffect(() => {

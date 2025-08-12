@@ -34,7 +34,7 @@ export default function ArtworkDetailClient({
     // optional: mutation observer in case header classes change the height
     const headerEl = document.querySelector("header");
     let mo: MutationObserver | null = null;
-    if (headerEl && (window as any).MutationObserver) {
+    if (headerEl && "MutationObserver" in window) {
       mo = new MutationObserver(measure);
       mo.observe(headerEl, {
         attributes: true,

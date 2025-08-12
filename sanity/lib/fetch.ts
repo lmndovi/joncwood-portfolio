@@ -18,19 +18,34 @@ export async function getFeaturedArtworks() {
 // Get all artworks
 export async function getAllArtworks() {
   return client.fetch(`
-      *[_type == "artwork"] | order(year desc) {
-        _id,
-        title,
-        "id": _id,
-        year,
-        category,
-        mainImage,
-        "slug": slug.current,
-        description,
-        dimensions,
-        medium
-      }
-    `);
+    *[_type == "artwork"] | order(year desc) {
+      _id,
+      title,
+      "id": _id,
+      year,
+      category,
+      mainImage {
+        ...,
+        asset->{
+          _id,
+          url,
+          metadata { dimensions { width, height } }
+        }
+      },
+      fullImage {
+        ...,
+        asset->{
+          _id,
+          url,
+          metadata { dimensions { width, height } }
+        }
+      },
+      "slug": slug.current,
+      description,
+      dimensions,
+      medium
+    }
+  `);
 }
 
 // Get a single artwork by ID
@@ -43,7 +58,22 @@ export async function getArtworkById(id: string) {
         "id": _id,
         year,
         category,
-        mainImage,
+        mainImage {
+          ...,
+          asset->{
+            _id,
+            url,
+            metadata { dimensions { width, height } }
+          }
+        },
+        fullImage {
+          ...,
+          asset->{
+            _id,
+            url,
+            metadata { dimensions { width, height } }
+          }
+        },
         "slug": slug.current,
         description,
         dimensions,

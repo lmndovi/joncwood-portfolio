@@ -53,25 +53,32 @@ export type Artwork = {
   slug?: Slug;
   year?: string;
   category?: "WORK" | "SKETCH" | "OBJECT";
+
+  // Cropped version for listings
   mainImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset?: SanityImageAsset;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
   };
+
+  // Full uncropped version for detail page
+  fullImage?: {
+    asset?: SanityImageAsset;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+
   description?: string;
   dimensions?: string;
   medium?: string;
   featured?: boolean;
   featuredOrder?: number;
-  imageWidth?: number; // new
-  imageHeight?: number; // new
+  imageWidth?: number;
+  imageHeight?: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -151,6 +158,7 @@ export type SanityImageAsset = {
   altText?: string;
   sha1hash?: string;
   extension?: string;
+
   mimeType?: string;
   size?: number;
   assetId?: string;

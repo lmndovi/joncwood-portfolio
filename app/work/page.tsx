@@ -7,6 +7,7 @@ import React from "react";
 
 export default async function WorkPage() {
   const artworks: Artwork[] = await getAllArtworks();
+  console.log(artworks);
 
   if (!artworks || artworks.length === 0) {
     return (
@@ -23,18 +24,27 @@ export default async function WorkPage() {
     <main className="pt-24 pb-12 px-6 md:px-12">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {artworks.map((art) => {
-          const width = art.imageWidth || 4;
-          const height = art.imageHeight || 3;
+          const width = 4;
+          const height = 3;
+          console.log(width);
+          console.log(height);
           return (
             <Link key={art._id} href={`/work/${art._id}`} className="group">
               <div
-                className={`relative overflow-hidden aspect-[${width}/${height}]`}
+                className="relative overflow-hidden"
+                style={{
+                  aspectRatio: `${width} / ${height}`,
+                }}
               >
                 {art.mainImage?.asset && (
                   <Image
-                    src={urlFor(art.mainImage).url()}
-                    alt={art.title || "Untitled artwork"}
+                    src={urlFor(art.mainImage)
+                      .width(width * 200)
+                      .height(height * 200)
+                      .fit("crop")
+                      .url()}
                     fill
+                    alt={art.title || "Untitled artwork"}
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 )}

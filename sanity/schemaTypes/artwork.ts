@@ -40,15 +40,16 @@ export default defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+
+    // Cropped image for listing/grid view
     defineField({
       name: "mainImage",
-      title: "Main Image",
+      title: "Cropped Image (Grid View)",
       type: "image",
-      options: {
-        hotspot: true,
-      },
+      options: { hotspot: true },
       validation: (Rule) => Rule.required(),
     }),
+
     defineField({
       name: "imageWidth",
       title: "Image Width",
@@ -63,6 +64,18 @@ export default defineType({
       description: "Height for cropping (e.g., 3 for a 4:3 crop)",
       validation: (Rule) => Rule.required().positive(),
     }),
+
+    // Full uncropped image for detail page
+    defineField({
+      name: "fullImage",
+      title: "Full Image (Detail Page)",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "This is the uncropped version displayed on the artwork detail page",
+      validation: (Rule) => Rule.required(),
+    }),
+
     defineField({
       name: "description",
       title: "Description",

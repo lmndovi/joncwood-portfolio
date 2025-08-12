@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
-import { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Artwork } from "@/sanity.types";
@@ -10,28 +9,9 @@ import { urlFor } from "@/sanity/lib/image";
 const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [imageAspectRatio, setImageAspectRatio] = useState<
-    "portrait" | "landscape" | "square"
-  >("portrait");
 
-  // Use the data passed from the server component
   const featuredArt = initialArtworks;
-
   const currentArt = featuredArt[currentIndex];
-
-  // Detect image aspect ratio
-  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = event.currentTarget;
-    const ratio = img.naturalWidth / img.naturalHeight;
-
-    if (ratio > 1.2) {
-      setImageAspectRatio("landscape");
-    } else if (ratio < 0.8) {
-      setImageAspectRatio("portrait");
-    } else {
-      setImageAspectRatio("square");
-    }
-  };
 
   const goToNext = useCallback(() => {
     if (isTransitioning) return;
@@ -50,28 +30,23 @@ const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") {
-        goToNext();
-      } else if (event.key === "ArrowLeft") {
-        goToPrevious();
-      }
+      if (event.key === "ArrowRight") goToNext();
+      else if (event.key === "ArrowLeft") goToPrevious();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToNext, goToPrevious]);
 
-  // Reset transition state after image loads
+  // Reset transition state after change
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsTransitioning(false);
-    }, 500);
+    const timer = setTimeout(() => setIsTransitioning(false), 500);
     return () => clearTimeout(timer);
   }, [currentIndex]);
 
   return (
     <div className="w-full h-[calc(100vh-80px)] mt-[80px] bg-gray-100">
-      {/* Image container with smart fitting */}
+      {/* Image */}
       <div className="relative w-full h-full mt-10">
         {currentArt.mainImage?.asset && (
           <Image
@@ -80,16 +55,15 @@ const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
             alt={currentArt.title || "Untitled artwork"}
             fill
             priority
-            onLoad={handleImageLoad}
             className={`transition-opacity duration-500 ${
               isTransitioning ? "opacity-0" : "opacity-100"
             } object-cover [object-position:center_40%]`}
-            style={{ objectPosition: "center 40%" }} // ensures it works even if Tailwind strips the class
+            style={{ objectPosition: "center 40%" }}
           />
         )}
       </div>
 
-      {/* Navigation arrows */}
+      {/* Arrows */}
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-between px-6 pointer-events-none">
         <button
           onClick={goToPrevious}
@@ -109,7 +83,7 @@ const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
         </button>
       </div>
 
-      {/* Artwork info with better contrast */}
+      {/* Artwork info */}
       <div className="absolute bottom-6 left-6">
         <div
           className={`bg-white/90 backdrop-blur-sm px-4 py-2 text-sm text-gray-800 rounded-md shadow-lg transition-all duration-300 ${
@@ -122,7 +96,7 @@ const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
         </div>
       </div>
 
-      {/* Carousel indicators */}
+      {/* Indicators */}
       <div className="absolute bottom-6 right-6 flex space-x-2">
         {featuredArt.map((_, index) => (
           <button

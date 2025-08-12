@@ -16,6 +16,7 @@ import {
 const navItems = [
   { href: "/about", label: "ABOUT" },
   { href: "/work", label: "SELECTED WORKS" },
+  { href: "/exhibition", label: "EXHIBITION" },
   { href: "/contact", label: "CONTACT" },
 ];
 

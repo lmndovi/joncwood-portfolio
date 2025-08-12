@@ -93,6 +93,16 @@ export async function getAboutPageContent(): Promise<AboutPage> {
   );
 }
 
+export async function getExhibitionPageContent() {
+  return client.fetch(`
+    *[_type == "exhibitionPage"][0]{
+      title,
+      flyerImage,
+      description
+    }
+  `);
+}
+
 // Get contact page content
 export async function getContactPageContent() {
   return client.fetch(`

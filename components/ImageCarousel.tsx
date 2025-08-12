@@ -72,7 +72,7 @@ const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
   return (
     <div className="w-full h-[calc(100vh-80px)] mt-[80px] bg-gray-100">
       {/* Image container with smart fitting */}
-      <div className="relative w-full h-full">
+      <div className="relative w-full h-full mt-10">
         {currentArt.mainImage?.asset && (
           <Image
             key={currentIndex}

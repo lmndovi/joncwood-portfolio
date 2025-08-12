@@ -40,6 +40,24 @@ export type AboutPage = {
   about?: any; // Portable Text content
 };
 
+export type ExhibitionPage = {
+  _id: string;
+  _type: "exhibitionPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  flyerImage?: {
+    _type?: "image";
+    asset?: {
+      _ref?: string;
+      _type?: "reference";
+    };
+    alt?: string;
+  };
+  description?: any; // Portable Text (array of block objects)
+};
+
 export type Artwork = {
   _id: string;
   _type: "artwork";
@@ -200,6 +218,7 @@ export type SanityAssetSourceData = {
 export type AllSanitySchemaTypes =
   | AboutPage
   | ContactPage
+  | ExhibitionPage
   | Artwork
   | SanityImagePaletteSwatch
   | SanityImagePalette

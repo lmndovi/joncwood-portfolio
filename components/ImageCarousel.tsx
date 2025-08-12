@@ -83,11 +83,8 @@ const ImageCarousel = ({ initialArtworks }: { initialArtworks: Artwork[] }) => {
             onLoad={handleImageLoad}
             className={`transition-opacity duration-500 ${
               isTransitioning ? "opacity-0" : "opacity-100"
-            } ${
-              imageAspectRatio === "portrait"
-                ? "object-contain" // Don't crop portrait images
-                : "object-cover" // Landscape images can be cropped
-            }`}
+            } object-cover [object-position:center_40%]`}
+            style={{ objectPosition: "center 40%" }} // ensures it works even if Tailwind strips the class
           />
         )}
       </div>
